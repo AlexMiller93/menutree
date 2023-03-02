@@ -1,0 +1,37 @@
+<nav>
+    <ul class="topmenu">
+        <li>
+            <a href="{{ menu.get_url }}" class="active">
+                {{ menu.title }}
+                <span class="fa fa-angle-down"></span>
+            </a>
+            <ul class="submenu">
+                {% for first_level_item in menu.items.all %}
+                    {% if not first_level_item.parent %}
+                        <li>
+                            <a href="{{ first_level_item.get_url }}">
+                                {{ first_level_item.title }}
+                                <span class="fa fa-angle-down"></span>
+                            </a>
+                            <ul class="submenu">
+                            {% for second_level_item in first_level_item.items.all %}
+                                <li>
+                                    {% if second_level_item.get_url != '/' %}
+                                    <a href="{{second_level_item.parent.get_url}}/{{ second_level_item.get_url }}">
+                                        {{ second_level_item.title }}
+                                    </a>
+                                    {% else %}
+                                    <a href="{{second_level_item.parent.get_url}}">
+                                        {{ second_level_item.title }}
+                                    </a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</nav>
